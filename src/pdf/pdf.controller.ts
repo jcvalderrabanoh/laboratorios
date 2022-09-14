@@ -1,7 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { PdfService } from './pdf.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  StreamableFile,
+  Res,
+} from '@nestjs/common';
+import { PdfService } from './services/pdf.service';
 import { CreatePdfDto } from './dto/create-pdf.dto';
 import { UpdatePdfDto } from './dto/update-pdf.dto';
+import { createReadStream } from 'fs';
+import { join } from 'path';
+import type { Response } from 'express';
 
 @Controller('pdf')
 export class PdfController {
@@ -9,12 +22,36 @@ export class PdfController {
 
   @Post()
   create(@Body() createPdfDto: CreatePdfDto) {
-    return this.pdfService.create(createPdfDto);
+    return; // this.pdfService.create(createPdfDto);
   }
 
   @Get()
   findAll() {
     return this.pdfService.findAll();
+  }
+
+  @Get('pdfMake')
+  getPDFMake(@Res({ passthrough: true }) res: Response): StreamableFile {
+    const file_name = this.pdfService.getPDFMake();
+    const file = createReadStream(join(process.cwd(), file_name));
+
+    res.set({
+      'Content-Type': 'application/json',
+      'Content-Disposition': 'attachment; filename="' + file_name + '"',
+    });
+    return new StreamableFile(file);
+  }
+
+  @Get('pdfMakeWrapper')
+  getPDFMakeWrapper(@Res({ passthrough: true }) res: Response) {
+    //const file_name = this.pdfService.getPDFMakeWrapper();
+    //const file = createReadStream(join(process.cwd(), file_name));
+    //
+    //res.set({
+    //  'Content-Type': 'application/json',
+    //  'Content-Disposition': 'attachment; filename="' + file_name + '"',
+    //});
+    //return new StreamableFile(file);
   }
 
   @Get(':id')

@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PdfController } from './pdf.controller';
-import { PdfService } from './pdf.service';
+import { PdfService } from './services/pdf.service';
 
 describe('PdfController', () => {
   let controller: PdfController;
