@@ -18,6 +18,9 @@ export class PdfService {
 
       doc.on('pageAdded',()=>{
         doc.text('ghgasdhgsadasdjkgdsksah<fgjdgsa', 100,100);
+        doc.polygon([100, 0], [50, 100], [150, 100]);
+        doc.stroke();
+
       });
 
       // customize your PDF document
