@@ -10,6 +10,7 @@ export class AppController {
   async getHello(@Res() res: Response) {
     return await this.appService.generatePDFToBuffer('', res, {
       locals: {
+        title: 'asas',
         foo: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_______________Aaaaaaaaaaaaaaaaa',
       },
     });
